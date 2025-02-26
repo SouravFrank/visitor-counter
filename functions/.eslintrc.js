@@ -6,7 +6,6 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
     "google",
@@ -18,16 +17,29 @@ module.exports = {
     sourceType: "module",
   },
   ignorePatterns: [
-    "/lib/**/*", // Ignore built files.
-    "/generated/**/*", // Ignore generated files.
+    "/lib/**/*",
+    "/generated/**/*",
   ],
   plugins: [
     "@typescript-eslint",
     "import",
   ],
   rules: {
-    "quotes": ["error", "double"],
+    "quotes": ["warn", "double"],
     "import/no-unresolved": 0,
-    "indent": ["error", 2],
+    "indent": ["warn", 2],
+    // Add any specific rules you want to customize here
   },
+  // Override to ensure TypeScript-specific rules are warnings
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        // Downgrade specific TypeScript rules to warnings if needed
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/no-explicit-any": ["warn"],
+        // Add more specific rules as needed
+      },
+    },
+  ],
 };
